@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AI Q&A Bot</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px; }
+        #chat { border: 1px solid #ccc; padding: 10px; height: 400px; overflow-y: auto; }
+        .user { color: blue; margin: 5px 0; }
+        .bot { color: green; margin: 5px 0; }
+        input[type=text] { width: 80%; padding: 10px; }
+        button { padding: 10px; }
+    </style>
+</head>
+<body>
+    <h2>🤖 AI Q&A Bot</h2>
+    <div id="chat"></div>
+    <input type="text" id="message" placeholder="Type your message...">
+    <button onclick="sendMessage()">Send</button>
+
+    <script>
+        async function sendMessage() {
+            const input = document.getElementById("message");
+            const chat = document.getElementById("chat");
+            const message = input.value.trim();
+            if (!message) return;
+
+            // Show user message
+            chat.innerHTML += `<div class="user">You: ${message}</div>`;
+            input.value = "";
+
+            // Send message to server
+            const response = await fetch("/ask", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ message })
+            });
+            const data = await response.json();
+            chat.innerHTML += `<div class="bot">Bot: ${data.answer}</div>`;
+
+            // Scroll to bottom
+            chat.scrollTop = chat.scrollHeight;
+        }
+
+        // Enter key to send message
+        document.getElementById("message").addEventListener("keypress", function(e) {
+            if (e.key === "Enter") sendMessage();
+        });
+    </script>
+</body>
+</html>
