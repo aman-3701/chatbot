@@ -20,7 +20,7 @@ def home():
 
 @app.route("/ask", methods=["POST"])
 def ask():
-    user_input = request.json.get("message")
+    user_input = request.json.get("messag")
     if not user_input:
         return jsonify({"error": "No message provided."}), 400
 
