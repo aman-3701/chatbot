@@ -1,9 +1,17 @@
+# services:
+#   - name: my-python-app
+#     type: web
+#     env: python
+#     branch: master
+    
+#     buildCommand: pip install -r requirements.txt
+  
+#     # startCommand: gunicorn myproject.wsgi:application
+
 services:
-  - name: my-python-app
-    type: web
+  - type: web
+    name: TINY-AI-APP
     env: python
     branch: master
-    
     buildCommand: pip install -r requirements.txt
-  
-    startCommand: gunicorn myproject.wsgi:application
+    startCommand: gunicorn app:app
